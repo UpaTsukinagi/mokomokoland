@@ -7,7 +7,529 @@
 <meta name="description" content="ふわふわ・きらきら。もこもこランド公式サイト。">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <title>もこもこランド｜公式サイト</title>
-<link rel="stylesheet" href="style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;400&display=swap');
+
+:root{
+  --bg:#fff9fc; --panel:#fff; --ink:#5f5b70; --muted:#91899e;
+  --pink:#ffd6e7; --pink2:#ffb9d6; --blue:#d2edff; --blue2:#a9dcff;
+  --lav:#e5d9ff; --yellow:#fff1b5; --mint:#d7f3e6;
+  --line:rgba(105,92,126,.13); --shadow:0 18px 55px rgba(135,110,151,.12);
+  --ease:cubic-bezier(.22,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);
+  font-family:"Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  background:
+    radial-gradient(circle at 12% 7%,rgba(255,210,232,.58),transparent 24%),
+    radial-gradient(circle at 87% 13%,rgba(202,235,255,.55),transparent 25%),
+    linear-gradient(180deg,#fffafd 0%,#fff7fb 55%,#faf8ff);
+  transition:background 1.1s,color 1s,font-family .7s;
+  overflow-x:hidden;
+}
+body.dusk{
+  background:
+    radial-gradient(circle at 12% 7%,rgba(245,179,222,.29),transparent 24%),
+    radial-gradient(circle at 87% 13%,rgba(181,193,249,.28),transparent 25%),
+    linear-gradient(180deg,#f8e0ee 0%,#e8daf2 45%,#c6d2ef 100%);
+}
+body.night{
+  color:#f1efff;
+  background:
+    radial-gradient(circle at 16% 8%,rgba(237,171,255,.14),transparent 21%),
+    radial-gradient(circle at 82% 17%,rgba(120,184,255,.13),transparent 25%),
+    linear-gradient(180deg,#4c5b90 0%,#373e72 38%,#262754 100%);
+}
+body.deep{
+  color:#f3efff;
+  font-family:"Noto Serif JP","Yu Mincho",serif;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(255,154,232,.10),transparent 15%),
+    radial-gradient(circle at 15% 18%,rgba(91,159,243,.10),transparent 24%),
+    linear-gradient(180deg,#232c58 0%,#20224b 46%,#13152f 100%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+img{display:block;width:100%;height:auto}
+.wrap{width:min(1240px,calc(100% - 7vw));margin-inline:auto}
+
+/* ---------- entry warning ---------- */
+.entry-warning{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;
+  background:rgba(255,240,249,.82);backdrop-filter:blur(13px);
+  opacity:0;visibility:hidden;transition:.45s var(--ease)
+}
+.entry-warning.open{opacity:1;visibility:visible}
+.warning-card{
+  width:min(560px,94vw);border-radius:30px;padding:34px 32px;text-align:center;
+  background:linear-gradient(180deg,#fff,#fff8fc);box-shadow:0 28px 90px rgba(104,78,128,.21);
+  border:1px solid rgba(255,255,255,.8)
+}
+.warning-icon{
+  width:74px;height:74px;border-radius:50%;display:grid;place-items:center;margin:0 auto 17px;
+  background:linear-gradient(135deg,var(--pink),var(--blue));font-size:29px
+}
+.warning-card h2{font-family:"Kiwi Maru",serif;font-size:25px;font-weight:400;margin:0 0 13px}
+.warning-card p{font-size:12px;line-height:2;color:#7d7486;margin:0}
+.warning-actions{display:flex;justify-content:center;gap:11px;margin-top:24px}
+.warning-actions button{
+  border:0;border-radius:999px;padding:12px 22px;cursor:pointer;
+  background:linear-gradient(135deg,#ffd5e7,#d3ebff);color:#615d73;font-weight:600
+}
+.warning-actions .quiet{background:#f0edf2;color:#8b8591}
+
+/* ---------- top utility bar ---------- */
+.utility{
+  background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:90;transition:.8s
+}
+body.night .utility,body.deep .utility{background:#252d58;border-color:rgba(255,255,255,.07)}
+.utility-inner{
+  min-height:46px;display:flex;align-items:center;justify-content:center;gap:20px;
+  font-size:10px;letter-spacing:.07em;white-space:nowrap
+}
+.utility .chip{
+  padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,#ffe0ed,#e0f1ff);color:#6c687c
+}
+body.night .utility .chip,body.deep .utility .chip{
+  background:linear-gradient(135deg,#d8b8ff,#b5dcff);color:#3e4164
+}
+#hoursTop{font-weight:700;min-width:85px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:80;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);transition:.8s
+}
+body.dusk header{background:rgba(249,232,243,.84)}
+body.night header,body.deep header{background:rgba(30,33,70,.80);border-color:rgba(255,255,255,.07)}
+.nav{height:80px;display:flex;align-items:center;justify-content:space-between;gap:26px}
+.brand{display:flex;align-items:center;gap:13px;min-width:max-content}
+.brand-mark{
+  width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--pink2),var(--blue2));color:#fff;
+  font-family:"Kiwi Maru";font-size:20px;box-shadow:0 9px 23px rgba(150,127,180,.16)
+}
+.brand strong{font-family:"Kiwi Maru";font-weight:500;font-size:16px;letter-spacing:.06em}
+.brand small{display:block;font-size:7px;letter-spacing:.2em;color:#9a91a2;margin-top:2px}
+body.night .brand small,body.deep .brand small{color:#a9b1d0}
+.navlinks{display:flex;align-items:center;gap:22px;font-size:9px;letter-spacing:.12em}
+.navlinks a{padding:10px 0;position:relative}
+.navlinks a:after{
+  content:"";position:absolute;left:0;right:100%;bottom:5px;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,var(--pink2),var(--blue2));transition:right .3s
+}
+.navlinks a:hover:after{right:0}
+.ticket-link{
+  border-radius:999px;padding:11px 16px!important;
+  background:linear-gradient(135deg,#ffd5e7,#d4ecff);color:#66637a;font-weight:600
+}
+.ticket-link:after{display:none!important}
+
+/* ---------- hero ---------- */
+.hero{position:relative;height:min(82svh,850px);min-height:640px;overflow:hidden;background:#e9f4ff}
+.hero-picture{position:absolute;inset:0}
+.hero-picture img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:opacity .8s var(--ease),filter 1s var(--ease),transform 6s var(--ease)
+}
+.hero-picture .day-photo{opacity:1}
+.hero-picture .night-photo{opacity:0}
+body.night .hero-picture .day-photo,body.deep .hero-picture .day-photo{opacity:0}
+body.night .hero-picture .night-photo,body.deep .hero-picture .night-photo{opacity:1}
+body.deep .hero-picture .night-photo{filter:saturate(.95) brightness(.86) contrast(1.03)}
+.hero:hover .hero-picture img{transform:scale(1.022)}
+.hero:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.01),transparent 44%,rgba(53,37,71,.58))
+}
+body.night .hero:after,body.deep .hero:after{
+  background:linear-gradient(180deg,rgba(12,12,35,.07),rgba(10,10,33,.06) 40%,rgba(10,9,31,.76))
+}
+.hero-copy{
+  position:absolute;z-index:2;left:6vw;bottom:8vh;color:white;max-width:720px;
+  text-shadow:0 4px 26px rgba(53,30,65,.28)
+}
+.hero-copy .eyebrow{font-size:9px;letter-spacing:.34em;margin-bottom:13px}
+.hero-copy h1{
+  font-family:"Kiwi Maru";font-size:clamp(54px,8vw,106px);font-weight:400;line-height:1;margin:0 0 15px
+}
+body.deep .hero-copy h1{font-family:"Noto Serif JP","Yu Mincho",serif;letter-spacing:.09em}
+.hero-copy p{font-family:"Kiwi Maru";font-size:15px;line-height:1.9;margin:0}
+body.deep .hero-copy p{font-family:"Noto Serif JP","Yu Mincho",serif}
+.scroll{
+  position:absolute;z-index:3;right:4vw;bottom:5vh;color:#fff;writing-mode:vertical-rl;
+  font-size:8px;letter-spacing:.28em
+}
+.scroll:after{content:"";display:block;width:1px;height:70px;margin-top:12px;background:linear-gradient(#fff,transparent)}
+
+/* ---------- news / hours block ---------- */
+.today-block{
+  padding:18px 0;background:rgba(255,255,255,.72);transition:.8s
+}
+body.night .today-block,body.deep .today-block{background:rgba(255,255,255,.035)}
+.today-card{
+  display:grid;grid-template-columns:150px 1fr auto;gap:22px;align-items:center;
+  border-radius:20px;padding:17px 21px;background:#fff;box-shadow:var(--shadow)
+}
+body.night .today-card,body.deep .today-card{
+  background:rgba(41,46,91,.66);box-shadow:none;border:1px solid rgba(255,255,255,.06)
+}
+.today-label{font-size:9px;letter-spacing:.17em;color:#9d94aa}
+body.night .today-label,body.deep .today-label{color:#a9b3d1}
+.today-message{font-size:12px;line-height:1.75}
+.today-date{font-size:9px;color:#aaa1af}
+.creepy-small{display:none;color:#e5c8ff}
+body.deep .creepy-small{display:inline}
+
+/* ---------- sections ---------- */
+.section{padding:116px 0}
+.soft{background:rgba(255,255,255,.56);transition:.8s}
+body.night .soft,body.deep .soft{background:rgba(255,255,255,.035)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:44px;margin-bottom:46px}
+.label{font-size:9px;letter-spacing:.33em;color:#9e96a7;margin-bottom:12px}
+body.night .label,body.deep .label{color:#aeb7d6}
+.title{
+  font-family:"Kiwi Maru";font-size:clamp(33px,5vw,58px);font-weight:400;line-height:1.3;margin:0
+}
+body.deep .title{font-family:"Noto Serif JP","Yu Mincho",serif;font-weight:300;letter-spacing:.08em}
+.lead{max-width:500px;font-size:12px;line-height:2.05;color:#898192}
+body.night .lead,body.deep .lead{color:#c7cde3}
+.reveal{opacity:0;transform:translateY(32px);transition:1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- mokomoko info ---------- */
+.info-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:16px}
+.feature-card{
+  position:relative;overflow:hidden;border-radius:26px;min-height:410px;background:#eee;cursor:pointer;
+  box-shadow:var(--shadow)
+}
+.feature-card img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s,transform .9s,filter .8s
+}
+.feature-card:hover img{transform:scale(1.022)}
+.feature-card .night-photo{opacity:0}
+body.night .feature-card .day-photo,body.deep .feature-card .day-photo{opacity:0}
+body.night .feature-card .night-photo,body.deep .feature-card .night-photo{opacity:1}
+body.deep .feature-card .night-photo{filter:saturate(.96) brightness(.88) contrast(1.02)}
+.feature-card:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(21,13,43,.75))}
+.feature-text{position:absolute;z-index:2;left:22px;right:22px;bottom:21px;color:#fff}
+.feature-text small{font-size:8px;letter-spacing:.17em;opacity:.75}
+.feature-text h3{font-family:"Kiwi Maru";font-weight:400;font-size:24px;margin:7px 0 6px}
+.feature-text p{font-size:10px;line-height:1.7;margin:0;color:#f5eff7}
+body.deep .feature-text h3{font-family:"Noto Serif JP",serif}
+
+/* ---------- attractions ---------- */
+.ride-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:17px}
+.ride{
+  position:relative;border-radius:27px;overflow:hidden;min-height:420px;background:#ddd;cursor:pointer
+}
+.ride img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s,filter .8s,transform .9s}
+.ride:hover img{transform:scale(1.02)}
+.ride .night-photo{opacity:0}
+body.night .ride .day-photo,body.deep .ride .day-photo{opacity:0}
+body.night .ride .night-photo,body.deep .ride .night-photo{opacity:1}
+body.deep .ride .night-photo{filter:saturate(.95) brightness(.87) contrast(1.03)}
+.ride:after{content:"";position:absolute;inset:48% 0 0;background:linear-gradient(transparent,rgba(16,11,39,.75))}
+.ride-copy{position:absolute;z-index:2;left:22px;right:22px;bottom:21px;color:#fff}
+.ride-copy small{font-size:8px;letter-spacing:.17em;opacity:.77}
+.ride-copy h3{font-family:"Kiwi Maru";font-size:25px;font-weight:400;margin:7px 0 0}
+body.deep .ride-copy h3{font-family:"Noto Serif JP",serif}
+.ride.wide{grid-column:1 / span 2;min-height:370px}
+.change-dot{
+  position:absolute;z-index:3;right:16px;top:16px;width:8px;height:8px;border-radius:50%;
+  background:#ffd0ff;box-shadow:0 0 18px #ffd0ff;opacity:0;transition:.5s
+}
+body.night .change-dot,body.deep .change-dot{opacity:1}
+
+/* ---------- before visit ---------- */
+.check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.check{
+  min-height:190px;border-radius:22px;padding:27px 20px;
+  background:#fff;border:1px solid var(--line);box-shadow:0 10px 32px rgba(140,117,156,.07);
+  display:flex;flex-direction:column;justify-content:space-between;transition:.7s;cursor:pointer
+}
+body.night .check,body.deep .check{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.07);box-shadow:none}
+.check .icon{font-size:30px}.check b{font-family:"Kiwi Maru";font-size:14px;font-weight:400}
+body.deep .check b{font-family:"Noto Serif JP",serif}
+.check small{font-size:9px;line-height:1.6;color:#a198aa}
+body.night .check small,body.deep .check small{color:#aab4d3}
+
+/* ---------- cute park map ---------- */
+.map-shell{
+  position:relative;border-radius:34px;padding:30px;
+  background:linear-gradient(145deg,#fffdfd,#f4faff);
+  box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.8);overflow:hidden;transition:.9s
+}
+body.night .map-shell,body.deep .map-shell{
+  background:linear-gradient(145deg,rgba(60,66,115,.78),rgba(36,41,82,.82));
+  border-color:rgba(255,255,255,.08);box-shadow:none
+}
+.park-map{
+  position:relative;height:620px;border-radius:28px;overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,208,228,.7),transparent 23%),
+    radial-gradient(circle at 78% 18%,rgba(198,234,255,.75),transparent 24%),
+    radial-gradient(circle at 42% 78%,rgba(214,244,226,.8),transparent 26%),
+    linear-gradient(180deg,#fef6fb,#eef8ff);
+  border:2px solid rgba(255,255,255,.86);transition:.9s
+}
+body.night .park-map,body.deep .park-map{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(228,167,245,.10),transparent 23%),
+    radial-gradient(circle at 78% 18%,rgba(113,174,238,.10),transparent 24%),
+    linear-gradient(180deg,#3f497d,#2c3267);
+  border-color:rgba(255,255,255,.08)
+}
+.park-map:before,.park-map:after{
+  content:"";position:absolute;border-radius:50%;border:38px solid rgba(255,255,255,.76);pointer-events:none
+}
+.park-map:before{width:72%;height:70%;left:10%;top:8%;transform:rotate(-6deg)}
+.park-map:after{width:50%;height:42%;right:6%;bottom:7%;border-width:24px}
+body.night .park-map:before,body.night .park-map:after,
+body.deep .park-map:before,body.deep .park-map:after{border-color:rgba(242,239,255,.12)}
+.map-spot{
+  position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;gap:7px;
+  min-width:120px;text-align:center;transition:.5s
+}
+.map-icon{
+  width:82px;height:82px;border-radius:28px;display:grid;place-items:center;font-size:34px;
+  background:#fff;border:5px solid var(--accent,#ffd8e9);box-shadow:0 10px 26px rgba(129,111,146,.10)
+}
+body.night .map-icon,body.deep .map-icon{background:#32396f;box-shadow:none}
+.map-spot b{font-family:"Kiwi Maru";font-size:12px;font-weight:500}
+body.deep .map-spot b{font-family:"Noto Serif JP",serif}
+.map-spot small{font-size:8px;color:#9c94a5}
+body.night .map-spot small,body.deep .map-spot small{color:#a6b0d0}
+.m-ferris{right:11%;top:9%;--accent:#bde5ff}.m-carousel{left:11%;top:20%;--accent:#ffd0e4}
+.m-teacup{left:37%;top:48%;--accent:#e4d4ff}.m-train{right:10%;bottom:13%;--accent:#fff0aa}
+.m-toy{left:8%;bottom:10%;--accent:#d6f0e1}.m-gate{left:42%;top:6%;--accent:#ffd9e8}
+.m-cast{right:33%;bottom:5%;--accent:#dbd1ff}
+.map-ribbon{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:4;
+  padding:11px 20px;border-radius:999px;background:#fff;color:#6e6879;
+  font-family:"Kiwi Maru";font-size:11px;box-shadow:0 8px 24px rgba(110,94,130,.12)
+}
+body.night .map-ribbon,body.deep .map-ribbon{background:#242959;color:#d9d9ef}
+.exit-label{transition:.45s}
+body.deep .exit-label{opacity:0}
+.hidden-map-text{display:none}
+body.deep .hidden-map-text{display:inline;color:#f1c5ff}
+
+/* ---------- recruit ---------- */
+.recruit-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:55px;align-items:start}
+.recruit-card{
+  border-radius:28px;padding:37px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);transition:.8s
+}
+body.night .recruit-card,body.deep .recruit-card{
+  background:rgba(48,53,99,.64);border-color:rgba(255,255,255,.07);box-shadow:none
+}
+.badge{
+  display:inline-flex;padding:8px 13px;border-radius:999px;
+  background:linear-gradient(135deg,#ffd7e7,#d5ebff);color:#6d677d;font-size:8px;letter-spacing:.13em
+}
+.recruit-card h3{font-family:"Kiwi Maru";font-size:30px;font-weight:400;line-height:1.45;margin:17px 0 14px}
+body.deep .recruit-card h3{font-family:"Noto Serif JP",serif}
+.recruit-card p{font-size:12px;line-height:2;color:#847d8c}
+body.night .recruit-card p,body.deep .recruit-card p{color:#c5cce3}
+.job{border-top:1px solid var(--line);margin-top:22px}
+.job-row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;line-height:1.7}
+.job-row b{font-size:8px;letter-spacing:.14em;color:#9b94a5}
+body.night .job-row b,body.deep .job-row b{color:#aeb8d8}
+.fake-button{
+  margin-top:24px;border:0;border-radius:999px;padding:13px 20px;
+  background:linear-gradient(135deg,#ffd5e7,#d2ebff);color:#636178;font-weight:600;
+  cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  box-shadow:0 8px 22px rgba(136,111,159,.12)
+}
+.fake-button:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.fake-button:active{transform:translateY(0)}
+.fake-button:disabled{cursor:default;opacity:.92;box-shadow:none}
+body.deep .fake-button{font-family:monospace;letter-spacing:.06em}
+
+/* ---------- information ---------- */
+.news-list{border-top:1px solid var(--line)}
+.news{
+  display:grid;grid-template-columns:110px 90px 1fr auto;gap:18px;align-items:center;
+  padding:19px 0;border-bottom:1px solid var(--line);font-size:11px
+}
+.news time{color:#9b94a4;font-size:9px}.news .tag{font-size:8px;color:#b2789c}
+body.night .news time,body.deep .news time{color:#a8b1d0}.news .arrow{font-size:18px}
+
+/* ---------- typography anomalies ---------- */
+@keyframes tinyShake{
+  0%,100%{transform:translate(0,0)}
+  25%{transform:translate(.45px,-.25px)}
+  50%{transform:translate(-.45px,.25px)}
+  75%{transform:translate(.28px,.35px)}
+}
+@keyframes hardShake{
+  0%,100%{transform:translate(0)}
+  18%{transform:translate(1px,-.6px)}
+  36%{transform:translate(-1px,.6px)}
+  54%{transform:translate(.8px,.8px)}
+  72%{transform:translate(-.7px,-.5px)}
+  90%{transform:translate(.6px,-.4px)}
+}
+.shake{display:inline-block}
+body.dusk .shake{animation:tinyShake .2s infinite}
+body.night .shake,body.deep .shake{animation:hardShake .13s infinite}
+body.dusk .font-warp{font-family:"Noto Serif JP","Yu Mincho",serif}
+body.night .font-warp{font-family:monospace;letter-spacing:.06em}
+body.deep .font-warp{font-family:monospace;letter-spacing:.12em}
+
+/* ---------- footer ---------- */
+footer{padding:52px 0 70px;font-size:9px;color:#918a9b}
+body.night footer,body.deep footer{color:#9da7c8}
+.footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.reset{border:0;background:none;color:inherit;cursor:pointer;padding:0}
+
+/* ---------- photo modal ---------- */
+.photo-modal,.application-modal{
+  position:fixed;inset:0;z-index:190;display:grid;place-items:center;padding:4vw;
+  background:rgba(35,28,56,.56);opacity:0;visibility:hidden;transition:.42s var(--ease)
+}
+.photo-modal.open,.application-modal.open{opacity:1;visibility:visible}
+.photo-card{
+  width:min(790px,94vw);border-radius:28px;overflow:hidden;background:#fff;
+  box-shadow:0 28px 90px rgba(43,31,67,.32)
+}
+.photo-frame{position:relative;aspect-ratio:4/3;background:#eee}
+.photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .65s}
+.photo-frame .modal-night{opacity:0}
+body.night .photo-frame .modal-day,body.deep .photo-frame .modal-day{opacity:0}
+body.night .photo-frame .modal-night,body.deep .photo-frame .modal-night{opacity:1}
+body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contrast(1.02)}
+.modal-close{
+  position:absolute;z-index:3;right:15px;top:14px;width:36px;height:36px;border-radius:50%;
+  border:0;background:rgba(255,255,255,.84);cursor:pointer;color:#635d70
+}
+.photo-caption{padding:22px 25px;color:#625e70}
+.photo-caption small{font-size:8px;letter-spacing:.16em;color:#a096a9}
+.photo-caption h3{font-family:"Kiwi Maru";font-size:24px;font-weight:400;margin:7px 0 6px}
+.photo-caption p{font-size:11px;line-height:1.8;color:#837c8e;margin:0}
+
+/* ---------- automatic application popup ---------- */
+.application-card{
+  width:min(600px,94vw);border-radius:34px;padding:42px 34px;text-align:center;
+  background:linear-gradient(180deg,#fff9fd,#f5f8ff);color:#5d596e;
+  box-shadow:0 30px 100px rgba(43,30,72,.42)
+}
+.application-icon{
+  width:94px;height:94px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;
+  background:linear-gradient(135deg,#ffd4e8,#cfeaff);font-size:38px
+}
+.application-card h2{
+  font-family:"Kiwi Maru";font-size:30px;font-weight:400;line-height:1.55;margin:0 0 12px
+}
+.application-card p{font-size:13px;line-height:2;color:#777083;margin:0}
+.application-card strong{display:block;font-family:"Noto Serif JP","Yu Mincho",serif;font-size:16px;margin-top:19px}
+.application-card button{
+  margin-top:25px;border:0;border-radius:999px;padding:13px 22px;
+  background:linear-gradient(135deg,#ffd5e8,#d2ebff);color:#625f75;cursor:pointer
+}
+
+
+/* ---------- final completion popup ---------- */
+.completion-modal{
+  position:fixed;inset:0;z-index:260;display:grid;place-items:center;padding:5vw;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(101,74,138,.16),transparent 28%),
+    rgba(4,5,13,.88);
+  opacity:0;visibility:hidden;transition:opacity .8s ease,visibility .8s ease;
+  backdrop-filter:blur(5px)
+}
+.completion-modal.open{opacity:1;visibility:visible}
+.completion-card{
+  position:relative;width:min(610px,92vw);overflow:hidden;
+  padding:54px 42px 40px;text-align:center;
+  background:
+    linear-gradient(180deg,rgba(22,23,42,.98),rgba(8,9,21,.98));
+  border:1px solid rgba(221,205,255,.11);
+  box-shadow:
+    0 32px 120px rgba(0,0,0,.62),
+    inset 0 0 80px rgba(113,86,153,.07);
+  color:#e9e4f4
+}
+.completion-card:before,
+.completion-card:after{
+  content:"";position:absolute;left:0;right:0;height:1px;
+  background:rgba(213,188,255,.16)
+}
+.completion-card:before{top:18px}.completion-card:after{bottom:18px}
+.completion-noise{
+  position:absolute;inset:0;pointer-events:none;opacity:.08;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.18) 0,
+      rgba(255,255,255,.18) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode:screen
+}
+.completion-kicker{
+  position:relative;z-index:1;font-family:monospace;
+  font-size:9px;letter-spacing:.22em;color:#9288a9;margin-bottom:23px
+}
+.completion-mark{
+  position:relative;z-index:1;
+  width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+  margin:0 auto 23px;border:1px solid rgba(225,211,255,.18);
+  color:#cab6e6;font-size:22px;
+  animation:completionPulse 2.4s ease-in-out infinite
+}
+.completion-card h2{
+  position:relative;z-index:1;
+  margin:0;font-family:"Noto Serif JP","Yu Mincho",serif;font-weight:300;
+  font-size:clamp(27px,4vw,38px);line-height:1.75;letter-spacing:.07em;
+  color:#f1edf8;
+  text-shadow:0 0 24px rgba(202,180,231,.08)
+}
+.completion-card p{
+  position:relative;z-index:1;
+  margin:24px 0 0;font-size:11px;line-height:2.1;color:#8f899d
+}
+.completion-reset{
+  position:relative;z-index:1;display:inline-block;margin-top:34px;
+  padding:4px 1px;border:0;border-bottom:1px solid rgba(223,211,240,.36);
+  background:none;color:#aaa2b6;font-size:10px;letter-spacing:.18em;
+  cursor:pointer;transition:.25s
+}
+.completion-reset:hover{color:#fff;border-bottom-color:#fff}
+@keyframes completionPulse{
+  0%,100%{box-shadow:0 0 0 rgba(205,181,235,0)}
+  50%{box-shadow:0 0 26px rgba(205,181,235,.10)}
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:980px){
+  .navlinks{display:none}
+  .info-grid{grid-template-columns:1fr 1fr}.info-grid .feature-card:first-child{grid-column:1/3}
+  .check-grid{grid-template-columns:1fr 1fr}
+  .recruit-grid{grid-template-columns:1fr}
+  .park-map{height:560px}
+}
+@media(max-width:680px){
+  .wrap{width:min(100% - 28px,1240px)}
+  .utility-inner{font-size:8px;gap:8px;overflow:auto;justify-content:flex-start;padding:0 14px}
+  .nav{height:69px}.brand small{display:none}
+  .hero{height:72svh;min-height:560px}.hero-copy{left:20px;right:20px}.hero-copy h1{font-size:49px}.hero-copy p{font-size:11px}
+  .today-card{grid-template-columns:1fr;gap:7px}.today-date{display:none}
+  .section{padding:88px 0}.section-head{display:block}.section-head .lead{margin-top:16px}
+  .info-grid,.ride-grid,.check-grid{grid-template-columns:1fr}.info-grid .feature-card:first-child{grid-column:auto}
+  .feature-card,.ride{min-height:330px}
+  .ride.wide{grid-column:auto;min-height:330px}
+  .news{grid-template-columns:80px 72px 1fr}.news .arrow{display:none}
+  .park-map{height:670px}
+  .map-spot{min-width:90px}.map-icon{width:66px;height:66px;border-radius:23px;font-size:27px}
+  .m-ferris{right:2%;top:7%}.m-carousel{left:1%;top:19%}.m-teacup{left:33%;top:43%}
+  .m-train{right:0;bottom:15%}.m-toy{left:0;bottom:10%}.m-gate{left:33%;top:4%}.m-cast{right:30%;bottom:2%}
+}
+</style>
 </head>
 
 <body>
@@ -35,6 +557,7 @@
     <button id="applicationClose">確認しました</button>
   </div>
 </div>
+
 
 <!-- Final completion popup -->
 <div class="completion-modal" id="completionModal">
@@ -67,9 +590,9 @@
 <!-- Top opening-hours utility -->
 <div class="utility">
   <div class="wrap utility-inner">
-    <span id="openingLabel">本日の営業時間</span>
-    <span class="chip" id="rideLabel">のりもの</span><span id="hoursTop">9:00 - 21:00</span>
-    <span class="chip" id="illuminationLabel">イルミネーション</span><span id="illuminationHours">9:00 - 21:00</span>
+    <span>本日の営業時間</span>
+    <span class="chip">のりもの</span><span id="hoursTop">9:00 - 20:00</span>
+    <span class="chip">イルミネーション</span><span>17:00 - 20:00</span>
   </div>
 </div>
 
@@ -80,6 +603,7 @@
       <span><strong>もこもこランド</strong><small>MOKOMOKO LAND OFFICIAL</small></span>
     </a>
     <nav class="navlinks">
+      
       <a href="#attractions">アトラクション</a>
       <a href="#map">園内マップ</a>
       <a class="ticket-link" href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">チケット</a>
@@ -93,8 +617,8 @@
 
 <section class="hero">
   <div class="hero-picture">
-    <img class="day-photo" src="assets/ferris_day.svg" alt="昼のもこもこランド">
-    <img class="night-photo" src="assets/ferris_night.svg" alt="夜のもこもこランド">
+    <img class="day-photo" src="assets/ferris_day.png" alt="昼のもこもこランド">
+    <img class="night-photo" src="assets/ferris_night.png" alt="夜のもこもこランド">
   </div>
   <div class="hero-copy">
     <div class="eyebrow">SMALL RIDES, BIG SMILES!</div>
@@ -106,8 +630,8 @@
 
 <div class="today-block">
   <div class="wrap today-card">
-    <div class="today-label night-flicker">TODAY'S NEWS</div>
-    <div class="today-message night-shake" id="todayMessage">
+    <div class="today-label">TODAY'S NEWS</div>
+    <div class="today-message">
       17:00よりナイトイルミネーションを開催します。
       <span class="creepy-small"><br>点滅しているライトを見かけたらキャストまでお声がけください。</span>
     </div>
@@ -120,33 +644,33 @@
     <div class="section-head reveal">
       <div>
         <div class="label">POPULAR ATTRACTIONS</div>
-        <h2 class="title night-shake">人気のアトラクション</h2>
+        <h2 class="title">人気のアトラクション</h2>
       </div>
-      <p class="lead" id="attractionLead">夜になるとキラキライルミネーションに彩られます。</p>
+      <p class="lead">夜になるとキラキライルミネーションに彩られます。</p>
     </div>
 
     <div class="ride-grid reveal">
       <article class="ride photo-open" data-kind="carousel">
-        <img class="day-photo" src="assets/carousel_day.svg">
-        <img class="night-photo" src="assets/carousel_night.svg">
+        <img class="day-photo" src="assets/carousel_day.png">
+        <img class="night-photo" src="assets/carousel_night.png">
         <span class="change-dot"></span>
         <div class="ride-copy"><small>01 / CAROUSEL</small><h3>ふわふわメリー</h3></div>
       </article>
       <article class="ride photo-open" data-kind="teacup">
-        <img class="day-photo" src="assets/teacup_day.svg">
-        <img class="night-photo" src="assets/teacup_night.svg">
+        <img class="day-photo" src="assets/teacup_day.png">
+        <img class="night-photo" src="assets/teacup_night.png">
         <span class="change-dot"></span>
         <div class="ride-copy"><small>02 / TEA CUP</small><h3 class="shake">くるくるティーパーティ</h3></div>
       </article>
       <article class="ride photo-open" data-kind="train">
-        <img class="day-photo" src="assets/train_day.svg">
-        <img class="night-photo" src="assets/train_night.svg">
+        <img class="day-photo" src="assets/train_day.png">
+        <img class="night-photo" src="assets/train_night.png">
         <span class="change-dot"></span>
         <div class="ride-copy"><small>03 / PARK TRAIN</small><h3>しゅぽぽトレイン</h3></div>
       </article>
       <article class="ride photo-open" data-kind="surprise">
-        <img class="day-photo" src="assets/surprise_day.svg">
-        <img class="night-photo" src="assets/surprise_night.svg">
+        <img class="day-photo" src="assets/surprise_day.png">
+        <img class="night-photo" src="assets/surprise_night.png">
         <span class="change-dot"></span>
         <div class="ride-copy"><small>04 / SURPRISE HOUSE</small><h3 class="font-warp">びっくりハウス</h3></div>
       </article>
@@ -154,39 +678,42 @@
   </div>
 </section>
 
+<!-- "Before you go" area inspired by the utility cards used by large park sites -->
 <section class="section" id="before">
   <div class="wrap">
     <div class="section-head reveal">
       <div>
         <div class="label">BEFORE YOUR VISIT</div>
-        <h2 class="title night-shake">おでかけ前にチェック！</h2>
+        <h2 class="title">おでかけ前にチェック！</h2>
       </div>
     </div>
     <div class="check-grid reveal">
       <a class="check ticket-action" href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">
         <span class="icon">🎟️</span><b>WEBチケット</b><small>チケットの購入はこちら</small>
       </a>
-      <a class="check access-link night-shake" href="access.html">
+      <a class="check access-link" href="access.html">
         <span class="icon">🚃</span><b>交通アクセス</b><small id="accessSmall">電車・バス・お車でのご案内</small>
       </a>
       <a class="check" href="#map">
         <span class="icon">🗺️</span><b>園内マップ</b><small>もこもこランドをもっと楽しむ</small>
       </a>
-      <a class="check night-flicker" href="#recruit">
+      <a class="check" href="#recruit">
         <span class="icon">🎠</span><b>キャスト募集</b><small>いっしょに、笑顔をつくろう</small>
       </a>
     </div>
   </div>
 </section>
 
+<!-- Cute original park map -->
+
 <section class="section soft" id="map">
   <div class="wrap">
     <div class="section-head reveal">
       <div>
         <div class="label">PARK MAP</div>
-        <h2 class="title night-flicker">園内マップ</h2>
+        <h2 class="title">園内マップ</h2>
       </div>
-      <p class="lead" id="mapLead">園内マップは現在準備中です。公開まで今しばらくお待ちください。</p>
+      <p class="lead">園内マップは現在準備中です。公開まで今しばらくお待ちください。</p>
     </div>
 
     <div class="map-shell reveal">
@@ -205,7 +732,7 @@
   <div class="wrap recruit-grid">
     <div class="reveal">
       <div class="label">CAST RECRUIT</div>
-      <h2 class="title night-red">あなたも、<br>もこもこの一員に。</h2>
+      <h2 class="title">あなたも、<br>もこもこの一員に。</h2>
       <p class="lead" style="margin-top:20px">もこもこランドでは、ゲストの楽しい一日を一緒につくるパークキャストを募集しています。</p>
     </div>
     <div class="recruit-card reveal recruit-observer">
@@ -228,12 +755,12 @@
     <div class="section-head reveal">
       <div>
         <div class="label">INFORMATION</div>
-        <h2 class="title night-flicker">インフォメーション</h2>
+        <h2 class="title">インフォメーション</h2>
       </div>
     </div>
     <div class="news-list reveal">
-      <div class="news"><time>2026.09.10</time><span class="tag">お知らせ</span><span id="newsIllumi">ナイトイルミネーション開催のお知らせ</span><span class="arrow">›</span></div>
-      <div class="news"><time>2026.09.01</time><span class="tag night-red">お願い</span><span class="shake" id="lostNews">園内で迷子になった場合のご案内</span><span class="arrow">›</span></div>
+      <div class="news"><time>2026.09.10</time><span class="tag">お知らせ</span><span>ナイトイルミネーション開催のお知らせ</span><span class="arrow">›</span></div>
+      <div class="news"><time>2026.09.01</time><span class="tag">お願い</span><span class="shake">園内で迷子になった場合のご案内</span><span class="arrow">›</span></div>
       <div class="news"><time>2026.08.21</time><span class="tag">採用</span><span id="recruitNews">秋季パークキャスト募集を開始しました</span><span class="arrow">›</span></div>
       <div class="news"><time>2026.08.??</time><span class="tag">---</span><span class="font-warp" id="glitchNews">また明日もお越しください</span><span class="arrow">›</span></div>
     </div>
@@ -244,7 +771,7 @@
 
 <footer>
   <div class="wrap footer">
-    <span class="night-flicker">© MOKOMOKO LAND</span>
+    <span>© MOKOMOKO LAND</span>
     <span>
       <a href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">WEB TICKET</a>
       &nbsp;/&nbsp;
@@ -255,6 +782,268 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+const KEY = "mokomoko_summerland_horror_v1";
+const WARNING_KEY = "mokomoko_content_warning_seen";
+let S = JSON.parse(localStorage.getItem(KEY) || '{"phase":0,"count":0,"seen":{},"mapSeen":false,"recruitSeen":false,"autoApplied":false,"warningSeen":false,"completionShown":false}');
+if(typeof S.warningSeen === "undefined") S.warningSeen = false;
+if(typeof S.completionShown === "undefined") S.completionShown = false;
+
+const PHOTO = {
+  ferris: {
+    day:"assets/ferris_day.png", night:"assets/ferris_night.png",
+    code:"FERRIS WHEEL", title:"きらめき観覧車",
+    normal:"空の上から、パークを一望できます。",
+    dark:"夜間ライトアップを実施しています。点灯していないゴンドラには乗車しないでください。"
+  },
+  teacup: {
+    day:"assets/teacup_day.png", night:"assets/teacup_night.png",
+    code:"TEA CUP", title:"くるくるティーパーティ",
+    normal:"カラフルなカップでくるくる回る、人気のキッズライド。",
+    dark:"停止後も回転しているカップには乗らないでください。"
+  },
+  train: {
+    day:"assets/train_day.png", night:"assets/train_night.png",
+    code:"PARK TRAIN", title:"しゅぽぽトレイン",
+    normal:"園内をゆっくり一周する、小さなパークトレインです。",
+    dark:"終点を過ぎても降車案内がない場合、そのままお待ちください。"
+  },
+  carousel: {
+    day:"assets/carousel_day.png", night:"assets/carousel_night.png",
+    code:"CAROUSEL", title:"ふわふわメリー",
+    normal:"やさしい音楽に合わせて回る、パステルカラーのメリーゴーランド。",
+    dark:"乗車中は絶対に後ろを振り返らないでください。"
+  },
+  surprise: {
+    day:"assets/surprise_day.png", night:"assets/surprise_night.png",
+    code:"SURPRISE HOUSE", title:"びっくりハウス",
+    normal:"プレゼントみたいな外観が目印。中にはおもちゃみたいな不思議がいっぱい。",
+    dark:"展示されているお人形にはお手を触れないでください。"
+  }
+};
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+
+function setPhase(n){
+  S.phase = Math.max(S.phase, n);
+  document.body.classList.remove("dusk","night","deep");
+  if(S.phase === 1) document.body.classList.add("dusk");
+  if(S.phase === 2) document.body.classList.add("night");
+  if(S.phase >= 3) document.body.classList.add("deep");
+
+  const h = document.getElementById("hoursTop");
+  const accessSmall = document.getElementById("accessSmall");
+  const news = document.getElementById("glitchNews");
+
+  // Day and dusk remain normal. Only night onward becomes corrupted.
+  if(S.phase >= 2){
+    h.textContent = "?? - 縺? 繧医ｋ";
+    accessSmall.textContent = S.phase >= 3 ? "帰り道を検索しています…" : "経路情報を取得しています…";
+    news.textContent = S.phase >= 3 ? "縺ｾ縺溘?逡後〒縺ゅ＞縺ｾ縺励ｇ縺?" : "また明日もお越しください";
+  } else {
+    h.textContent = "?? - 縺? 繧医ｋ";
+    accessSmall.textContent = "電車・バス・お車でのご案内";
+    news.textContent = "また明日もお越しください";
+  }
+
+  if(S.autoApplied){
+    document.getElementById("applyStatus").textContent = "応募済み";
+    document.getElementById("recruitNews").textContent = "採用受付が完了しました";
+    const btn = document.getElementById("jobApplyBtn");
+    if(btn){
+      btn.textContent = "応募ありがとうございました";
+      btn.disabled = true;
+      btn.style.cursor = "default";
+    }
+  }
+
+  save();
+}
+
+function advance(kind){
+  S.count += 1;
+  if(kind) S.seen[kind] = true;
+  const unique = Object.keys(S.seen).length;
+
+  // Dusk starts early enough to notice, then lasts for a while.
+  if(S.count >= 2 || unique >= 2) setPhase(1);
+
+  // Keep the daytime photos throughout dusk. Night arrives much later.
+  if(unique >= 4 && S.count >= 7) setPhase(2);
+
+  // Deep night is reserved for a fairly thorough exploration.
+  if(S.count >= 15 || (S.recruitSeen && S.count >= 13)) setPhase(3);
+
+  maybeAutoApply();
+  maybeShowCompletion();
+  save();
+}
+
+function openApplicationPopup(mode="thanks"){
+  const title = document.getElementById("applicationTitle");
+  const text = document.getElementById("applicationText");
+  const strong = document.getElementById("applicationStrong");
+
+  if(mode === "auto"){
+    title.textContent = "応募ありがとうございました";
+    text.innerHTML = "もこもこランド キャスト採用係<br>応募を受け付けました。";
+    strong.textContent = "当日は心よりお待ち申し上げております";
+  } else {
+    title.textContent = "応募ありがとうございました";
+    text.innerHTML = "募集要項の確認が完了しました。<br>あなたの応募を受け付けました。";
+    strong.textContent = "当日は心よりお待ち申し上げております";
+  }
+  document.getElementById("applicationModal").classList.add("open");
+}
+
+
+function maybeShowCompletion(){
+  if(S.completionShown) return;
+
+  // The site is considered fully explored only after:
+  // - deep-night state is reached
+  // - recruitment has been seen
+  // - all five attraction/photo types have been opened
+  // - a little extra browsing has happened after the final visual change
+  const allAttractionsSeen = ["carousel","teacup","train","surprise"]
+    .every(k => S.seen && S.seen[k]);
+
+  if(S.phase >= 3 && S.recruitSeen && allAttractionsSeen && S.count >= 15){
+    S.completionShown = true;
+    save();
+    setTimeout(()=>{
+      document.getElementById("completionModal").classList.add("open");
+    }, 1200);
+  }
+}
+
+function maybeAutoApply(){
+  if(S.autoApplied) return;
+  if(S.recruitSeen && S.phase >= 2 && S.count >= 12){
+    setTimeout(()=>{
+      if(S.autoApplied) return;
+      S.autoApplied = true;
+      save();
+      document.getElementById("applyStatus").textContent = "応募済み";
+      document.getElementById("recruitNews").textContent = "採用受付が完了しました";
+      openApplicationPopup("auto");
+      maybeShowCompletion();
+    }, 900);
+  }
+}
+
+/* Entry warning */
+window.addEventListener("load", ()=>{
+  const warningSeen = localStorage.getItem(WARNING_KEY) === "1";
+  if(!warningSeen){
+    document.getElementById("entryWarning").classList.add("open");
+  }
+  setPhase(S.phase);
+});
+document.getElementById("continueBtn").addEventListener("click", ()=>{
+  S.warningSeen = true;
+  localStorage.setItem(WARNING_KEY, "1");
+  save();
+  document.getElementById("entryWarning").classList.remove("open");
+});
+document.getElementById("backBtn").addEventListener("click", ()=>{
+  S.warningSeen = true;
+  localStorage.setItem(WARNING_KEY, "1");
+  save();
+  if(history.length > 1) history.back();
+  else document.getElementById("entryWarning").classList.remove("open");
+});
+
+/* Scroll reveal + progression observers */
+const revealObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add("in");
+  });
+},{threshold:.14});
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+
+const recruitObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting && !S.recruitSeen){
+      S.recruitSeen = true;
+      S.count += 1;
+      save();
+      if(S.phase >= 1) advance();
+      maybeAutoApply();
+    }
+  });
+},{threshold:.48});
+recruitObserver.observe(document.querySelector(".recruit-observer"));
+
+/* Photo lightbox */
+const modal = document.getElementById("photoModal");
+document.querySelectorAll(".photo-open").forEach(el=>{
+  el.addEventListener("click", ()=>{
+    const kind = el.dataset.kind;
+    advance(kind);
+    const d = PHOTO[kind];
+    document.getElementById("modalDay").src = d.day;
+    document.getElementById("modalNight").src = d.night;
+    document.getElementById("modalCode").textContent = d.code;
+    document.getElementById("modalTitle").textContent = d.title;
+    document.getElementById("modalText").textContent = S.phase >= 2 ? d.dark : d.normal;
+    modal.classList.add("open");
+  });
+});
+document.getElementById("photoClose").addEventListener("click",()=>modal.classList.remove("open"));
+modal.addEventListener("click",e=>{ if(e.target === modal) modal.classList.remove("open"); });
+
+/* Access attempts advance progression before navigating */
+document.querySelectorAll(".access-link,.access-nav").forEach(link=>{
+  link.addEventListener("click", ()=>{
+    S.count += 1;
+    if(S.phase >= 1 && S.count >= 10) setPhase(2);
+    if(S.phase >= 2 && S.count >= 15) setPhase(3);
+    save();
+  });
+});
+
+document.getElementById("jobApplyBtn").addEventListener("click", ()=>{
+  S.autoApplied = true;
+  S.count += 1;
+  save();
+  document.getElementById("applyStatus").textContent = "応募済み";
+  document.getElementById("recruitNews").textContent = "採用受付が完了しました";
+
+  const btn = document.getElementById("jobApplyBtn");
+  btn.textContent = "ご応募ありがとうございました";
+  btn.disabled = true;
+  btn.style.cursor = "default";
+
+  openApplicationPopup("thanks");
+  maybeShowCompletion();
+});
+
+/* Application popup */
+document.getElementById("applicationClose").addEventListener("click", ()=>{
+  document.getElementById("applicationModal").classList.remove("open");
+  S.count += 1;
+  save();
+  maybeShowCompletion();
+});
+
+document.getElementById("completionReset").addEventListener("click", ()=>{
+  localStorage.removeItem(KEY);
+  localStorage.removeItem(WARNING_KEY);
+  location.href = "index.html";
+});
+
+document.getElementById("applicationModal").addEventListener("click",e=>{
+  if(e.target.id === "applicationModal") e.currentTarget.classList.remove("open");
+});
+
+/* Reset */
+document.getElementById("reset").addEventListener("click", ()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
+
+setPhase(S.phase);
+</script>
 </body>
 </html>
