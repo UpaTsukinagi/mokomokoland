@@ -380,6 +380,17 @@ body.dusk .font-warp{font-family:"Noto Serif JP","Yu Mincho",serif}
 body.night .font-warp{font-family:monospace;letter-spacing:.06em}
 body.deep .font-warp{font-family:monospace;letter-spacing:.12em}
 
+
+/* ---------- progressive horror effects ---------- */
+@keyframes nightFlicker{0%,7%,10%,19%,22%,72%,76%,100%{opacity:1}8%,20%,74%{opacity:.2}9%,21%,75%{opacity:.72}}
+@keyframes redPulse{0%,100%{color:inherit;text-shadow:none}44%{color:#d95f6f;text-shadow:0 0 8px rgba(205,35,50,.10)}50%{color:#ff4f5e;text-shadow:0 0 15px rgba(255,45,55,.35)}56%{color:#d95f6f;text-shadow:0 0 8px rgba(205,35,50,.10)}}
+@keyframes glitchSkew{0%,100%{transform:translate(0,0) skewX(0)}20%{transform:translate(.7px,-.2px) skewX(.35deg)}40%{transform:translate(-.7px,.3px) skewX(-.4deg)}60%{transform:translate(.4px,.5px) skewX(.25deg)}80%{transform:translate(-.4px,-.3px) skewX(-.25deg)}}
+@keyframes noiseDrift{0%{transform:translate3d(-1.5%,0,0)}25%{transform:translate3d(1%,.8%,0)}50%{transform:translate3d(-.5%,-1%,0)}75%{transform:translate3d(1.3%,-.4%,0)}100%{transform:translate3d(-1.5%,0,0)}}
+body:before{content:"";position:fixed;inset:-8%;z-index:150;pointer-events:none;opacity:0;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0,rgba(255,255,255,.22) 1px,transparent 1px,transparent 4px),radial-gradient(circle at 21% 33%,rgba(255,255,255,.32) 0 1px,transparent 1.5px),radial-gradient(circle at 71% 61%,rgba(255,255,255,.22) 0 1px,transparent 1.4px);background-size:auto,17px 19px,23px 21px;mix-blend-mode:screen}
+body.dusk:before{opacity:.025;animation:noiseDrift .9s steps(2,end) infinite}body.night:before{opacity:.07;animation:noiseDrift .34s steps(2,end) infinite}body.deep:before{opacity:.13;animation:noiseDrift .17s steps(2,end) infinite}
+.night-shake,.night-flicker,.night-red{transition:color .35s,opacity .35s,text-shadow .35s}body.dusk .night-shake{display:inline-block;animation:tinyShake .38s infinite}body.night .night-shake{display:inline-block;animation:tinyShake .18s infinite}body.deep .night-shake{display:inline-block;animation:hardShake .11s infinite}body.dusk .night-flicker{animation:nightFlicker 7s infinite}body.night .night-flicker{animation:nightFlicker 3.6s infinite}body.deep .night-flicker{animation:nightFlicker 1.8s infinite}body.dusk .night-red{animation:redPulse 7.5s infinite}body.night .night-red{animation:redPulse 3.1s infinite}body.deep .night-red{animation:redPulse 1.55s infinite}
+body.night .navlinks a:nth-child(2),body.night .navlinks a:nth-child(5),body.deep .navlinks a:nth-child(2),body.deep .navlinks a:nth-child(5){animation:glitchSkew .16s infinite}body.deep .navlinks a:nth-child(3){color:#ff777d;animation:nightFlicker 1.5s infinite,hardShake .12s infinite}body.dusk .today-date{color:#b97484}body.night .today-date{color:#e6a4b4;animation:nightFlicker 2.8s infinite}body.deep .today-date{color:#ff737a;animation:nightFlicker 1.2s infinite}body.night .news:nth-child(2) span:nth-child(3),body.night .news:nth-child(4) span:nth-child(3),body.deep .news:nth-child(2) span:nth-child(3),body.deep .news:nth-child(4) span:nth-child(3){color:#ff7c82;text-shadow:0 0 12px rgba(255,68,77,.18)}body.deep .check:nth-child(2) b,body.deep .check:nth-child(4) b{color:#ff7c82}body.night .utility .chip{animation:glitchSkew .22s infinite}body.deep .utility .chip{animation:hardShake .12s infinite}.news-link{transition:background .25s,padding .25s}.news-link:hover{background:rgba(255,255,255,.5);padding-left:10px;padding-right:10px}body.night .news-link:hover,body.deep .news-link:hover{background:rgba(255,255,255,.04)}.completion-thanks{position:relative;z-index:1;margin:0 0 14px;font-family:"Noto Serif JP","Yu Mincho",serif;font-size:14px;letter-spacing:.08em;color:#cdbfd9}
+
 /* ---------- footer ---------- */
 footer{padding:52px 0 70px;font-size:9px;color:#918a9b}
 body.night footer,body.deep footer{color:#9da7c8}
@@ -565,6 +576,7 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
     <div class="completion-noise"></div>
     <div class="completion-kicker">MOKOMOKO LAND / STAFF ONLY</div>
     <div class="completion-mark">✦</div>
+    <div class="completion-thanks">求人へのご応募ありがとうございます。</div>
     <h2>当日は一緒に働けることを<br>楽しみにしております</h2>
     <p>ご案内は以上です。<br>どうぞお気をつけてお越しください。</p>
     <button class="completion-reset" id="completionReset">リセット</button>
@@ -590,9 +602,9 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
 <!-- Top opening-hours utility -->
 <div class="utility">
   <div class="wrap utility-inner">
-    <span>本日の営業時間</span>
-    <span class="chip">のりもの</span><span id="hoursTop">9:00 - 20:00</span>
-    <span class="chip">イルミネーション</span><span>17:00 - 20:00</span>
+    <span id="openingLabel">本日の営業時間</span>
+    <span class="chip" id="rideLabel">のりもの</span><span id="hoursTop">9:00 - 21:00</span>
+    <span class="chip" id="illuminationLabel">イルミネーション</span><span id="illuminationHours">9:00 - 21:00</span>
   </div>
 </div>
 
@@ -630,8 +642,8 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
 
 <div class="today-block">
   <div class="wrap today-card">
-    <div class="today-label">TODAY'S NEWS</div>
-    <div class="today-message">
+    <div class="today-label night-flicker">TODAY'S NEWS</div>
+    <div class="today-message night-shake" id="todayMessage">
       17:00よりナイトイルミネーションを開催します。
       <span class="creepy-small"><br>点滅しているライトを見かけたらキャストまでお声がけください。</span>
     </div>
@@ -644,9 +656,9 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
     <div class="section-head reveal">
       <div>
         <div class="label">POPULAR ATTRACTIONS</div>
-        <h2 class="title">人気のアトラクション</h2>
+        <h2 class="title night-shake">人気のアトラクション</h2>
       </div>
-      <p class="lead">夜になるとキラキライルミネーションに彩られます。</p>
+      <p class="lead" id="attractionLead">夜になるとキラキライルミネーションに彩られます。</p>
     </div>
 
     <div class="ride-grid reveal">
@@ -684,20 +696,20 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
     <div class="section-head reveal">
       <div>
         <div class="label">BEFORE YOUR VISIT</div>
-        <h2 class="title">おでかけ前にチェック！</h2>
+        <h2 class="title night-shake">おでかけ前にチェック！</h2>
       </div>
     </div>
     <div class="check-grid reveal">
       <a class="check ticket-action" href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">
         <span class="icon">🎟️</span><b>WEBチケット</b><small>チケットの購入はこちら</small>
       </a>
-      <a class="check access-link" href="access.html">
+      <a class="check access-link night-shake" href="access.html">
         <span class="icon">🚃</span><b>交通アクセス</b><small id="accessSmall">電車・バス・お車でのご案内</small>
       </a>
       <a class="check" href="#map">
         <span class="icon">🗺️</span><b>園内マップ</b><small>もこもこランドをもっと楽しむ</small>
       </a>
-      <a class="check" href="#recruit">
+      <a class="check night-flicker" href="#recruit">
         <span class="icon">🎠</span><b>キャスト募集</b><small>いっしょに、笑顔をつくろう</small>
       </a>
     </div>
@@ -711,9 +723,9 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
     <div class="section-head reveal">
       <div>
         <div class="label">PARK MAP</div>
-        <h2 class="title">園内マップ</h2>
+        <h2 class="title night-flicker">園内マップ</h2>
       </div>
-      <p class="lead">園内マップは現在準備中です。公開まで今しばらくお待ちください。</p>
+      <p class="lead" id="mapLead">園内マップは現在準備中です。公開まで今しばらくお待ちください。</p>
     </div>
 
     <div class="map-shell reveal">
@@ -732,7 +744,7 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
   <div class="wrap recruit-grid">
     <div class="reveal">
       <div class="label">CAST RECRUIT</div>
-      <h2 class="title">あなたも、<br>もこもこの一員に。</h2>
+      <h2 class="title night-red">あなたも、<br>もこもこの一員に。</h2>
       <p class="lead" style="margin-top:20px">もこもこランドでは、ゲストの楽しい一日を一緒につくるパークキャストを募集しています。</p>
     </div>
     <div class="recruit-card reveal recruit-observer">
@@ -755,14 +767,14 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
     <div class="section-head reveal">
       <div>
         <div class="label">INFORMATION</div>
-        <h2 class="title">インフォメーション</h2>
+        <h2 class="title night-flicker">インフォメーション</h2>
       </div>
     </div>
     <div class="news-list reveal">
-      <div class="news"><time>2026.09.10</time><span class="tag">お知らせ</span><span>ナイトイルミネーション開催のお知らせ</span><span class="arrow">›</span></div>
-      <div class="news"><time>2026.09.01</time><span class="tag">お願い</span><span class="shake">園内で迷子になった場合のご案内</span><span class="arrow">›</span></div>
-      <div class="news"><time>2026.08.21</time><span class="tag">採用</span><span id="recruitNews">秋季パークキャスト募集を開始しました</span><span class="arrow">›</span></div>
-      <div class="news"><time>2026.08.??</time><span class="tag">---</span><span class="font-warp" id="glitchNews">また明日もお越しください</span><span class="arrow">›</span></div>
+      <a class="news news-link" href="news-illumination.html"><time>2026.09.10</time><span class="tag">お知らせ</span><span id="newsIllumi">ナイトイルミネーション開催のお知らせ</span><span class="arrow">›</span></a>
+      <a class="news news-link" href="news-lost.html"><time>2026.09.01</time><span class="tag night-red">お願い</span><span class="shake" id="lostNews">園内で迷子になった場合のご案内</span><span class="arrow">›</span></a>
+      <a class="news news-link" href="news-recruit.html"><time>2026.08.21</time><span class="tag">採用</span><span id="recruitNews">秋季パークキャスト募集を開始しました</span><span class="arrow">›</span></a>
+      <a class="news news-link" href="news-tomorrow.html"><time>2026.08.??</time><span class="tag">---</span><span class="font-warp night-flicker" id="glitchNews">また明日もお越しください</span><span class="arrow">›</span></a>
     </div>
   </div>
 </section>
@@ -771,7 +783,7 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
 
 <footer>
   <div class="wrap footer">
-    <span>© MOKOMOKO LAND</span>
+    <span class="night-flicker">© MOKOMOKO LAND</span>
     <span>
       <a href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">WEB TICKET</a>
       &nbsp;/&nbsp;
@@ -830,33 +842,17 @@ function setPhase(n){
   if(S.phase === 1) document.body.classList.add("dusk");
   if(S.phase === 2) document.body.classList.add("night");
   if(S.phase >= 3) document.body.classList.add("deep");
-
-  const h = document.getElementById("hoursTop");
-  const accessSmall = document.getElementById("accessSmall");
-  const news = document.getElementById("glitchNews");
-
-  // Day and dusk remain normal. Only night onward becomes corrupted.
-  if(S.phase >= 2){
-    h.textContent = "?? - 縺? 繧医ｋ";
-    accessSmall.textContent = S.phase >= 3 ? "帰り道を検索しています…" : "経路情報を取得しています…";
-    news.textContent = S.phase >= 3 ? "縺ｾ縺溘?逡後〒縺ゅ＞縺ｾ縺励ｇ縺?" : "また明日もお越しください";
-  } else {
-    h.textContent = "?? - 縺? 繧医ｋ";
-    accessSmall.textContent = "電車・バス・お車でのご案内";
-    news.textContent = "また明日もお越しください";
+  const h=document.getElementById("hoursTop"),rideLabel=document.getElementById("rideLabel"),illuminationLabel=document.getElementById("illuminationLabel"),illuminationHours=document.getElementById("illuminationHours"),accessSmall=document.getElementById("accessSmall"),news=document.getElementById("glitchNews"),todayMessage=document.getElementById("todayMessage"),attractionLead=document.getElementById("attractionLead"),mapLead=document.getElementById("mapLead"),newsIllumi=document.getElementById("newsIllumi"),lostNews=document.getElementById("lostNews");
+  if(S.phase < 2){
+    h.textContent="9:00 - 21:00";rideLabel.textContent="のりもの";illuminationLabel.textContent="イルミネーション";illuminationHours.textContent="9:00 - 21:00";accessSmall.textContent="電車・バス・お車でのご案内";news.textContent="また明日もお越しください";todayMessage.childNodes[0].nodeValue="17:00よりナイトイルミネーションを開催します。";attractionLead.textContent="夜になるとキラキライルミネーションに彩られます。";mapLead.textContent="園内マップは現在準備中です。公開まで今しばらくお待ちください。";newsIllumi.textContent="ナイトイルミネーション開催のお知らせ";lostNews.textContent="園内で迷子になった場合のご案内";
   }
-
-  if(S.autoApplied){
-    document.getElementById("applyStatus").textContent = "応募済み";
-    document.getElementById("recruitNews").textContent = "採用受付が完了しました";
-    const btn = document.getElementById("jobApplyBtn");
-    if(btn){
-      btn.textContent = "応募ありがとうございました";
-      btn.disabled = true;
-      btn.style.cursor = "default";
-    }
+  if(S.phase === 2){
+    h.textContent="9:00 - 縺?1:00";rideLabel.textContent="のりもの";illuminationLabel.textContent="繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ";illuminationHours.textContent="??:?? - 縺?1:00";accessSmall.textContent="邱丞粋諠?蝣ｱ繧貞叙蠕励＠縺ｦ縺?∪縺?";news.textContent="縺ｾ縺溘?譁?譁?縺ｧ縺ゅ＞縺ｾ縺励ｇ縺?";todayMessage.childNodes[0].nodeValue="17:00繧医ｊ 繝翫う繝医う繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ 繧帝幕蛯ｬ縺励∪縺吶?";attractionLead.textContent="螟懈婿縺ｮ繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ縺ｯ迚ｹ蛻･蜈牙ｹｴ縺ｧ縺吶?";mapLead.textContent="蝨貞?繝槭ャ繝励?迴ｾ蝨ｨ貅門ｙ荳ｭ縺ｧ縺吶?";newsIllumi.textContent="繝翫う繝医う繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ髢句ぎ";lostNews.textContent="蝨貞?縺ｧ縺ｾ縺?蟄舌↓縺ｪ縺｣縺溘?蜿門ｾ励";
   }
-
+  if(S.phase >= 3){
+    h.textContent="縺? : 縺? - 2? : ??";rideLabel.textContent="縺ｮ繧翫ｂ縺ｮ";illuminationLabel.textContent="繧､?繝ｫ?繝溘?繧ｷ?繝ｧ?";illuminationHours.textContent="??:?? - ?? : ??";accessSmall.textContent="縺薙?邱丞粋縺ｯ隱ｭ縺ｿ霎ｼ繧√∪縺帙ｓ";news.textContent="縺ｾ縺溘?逡後〒縺ゅ＞縺ｾ縺励ｇ縺?";todayMessage.childNodes[0].nodeValue="縺ｾ縺?縺ｾ縺?縺薙％縺ｫ縺?※縺上□縺輔＞";attractionLead.textContent="縺ｾ縺溘?縺ｿ縺､縺代※縺上ｌ縺溘?";mapLead.textContent="PARK MAP : ERROR / 縺ｾ縺?譁?譁?";newsIllumi.textContent="ERROR_17:00 / 繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ";lostNews.textContent="縺ｿ縺､縺九ｉ縺ｪ縺? / 繧ｭ繝｣繧ｹ繝医?蜿｣";illuminationLabel.classList.add("night-red","night-flicker");illuminationHours.classList.add("night-red","night-flicker");accessSmall.classList.add("night-red");lostNews.classList.add("night-red");
+  }
+  if(S.autoApplied){document.getElementById("applyStatus").textContent="応募済み";document.getElementById("recruitNews").textContent="ご応募ありがとうございました";const btn=document.getElementById("jobApplyBtn");if(btn){btn.textContent="応募ありがとうございました";btn.disabled=true;btn.style.cursor="default";}}
   save();
 }
 
@@ -898,7 +894,7 @@ function openApplicationPopup(mode="thanks"){
 
 
 function maybeShowCompletion(){
-  if(S.completionShown) return;
+  if(S.completionShown){const modal=document.getElementById("completionModal");if(modal)setTimeout(()=>modal.classList.add("open"),500);return;}
 
   // The site is considered fully explored only after:
   // - deep-night state is reached
@@ -939,6 +935,7 @@ window.addEventListener("load", ()=>{
     document.getElementById("entryWarning").classList.add("open");
   }
   setPhase(S.phase);
+  if(S.completionShown) maybeShowCompletion();
 });
 document.getElementById("continueBtn").addEventListener("click", ()=>{
   S.warningSeen = true;
@@ -993,15 +990,10 @@ document.querySelectorAll(".photo-open").forEach(el=>{
 document.getElementById("photoClose").addEventListener("click",()=>modal.classList.remove("open"));
 modal.addEventListener("click",e=>{ if(e.target === modal) modal.classList.remove("open"); });
 
+document.querySelectorAll(".news-link").forEach(link=>{link.addEventListener("click",()=>advance());});
+
 /* Access attempts advance progression before navigating */
-document.querySelectorAll(".access-link,.access-nav").forEach(link=>{
-  link.addEventListener("click", ()=>{
-    S.count += 1;
-    if(S.phase >= 1 && S.count >= 10) setPhase(2);
-    if(S.phase >= 2 && S.count >= 15) setPhase(3);
-    save();
-  });
-});
+document.querySelectorAll(".access-link,.access-nav").forEach(link=>{link.addEventListener("click",()=>advance());});
 
 document.getElementById("jobApplyBtn").addEventListener("click", ()=>{
   S.autoApplied = true;
