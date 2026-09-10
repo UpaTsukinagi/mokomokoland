@@ -1,3 +1,11 @@
+
+function normalizeImageSources(){
+  document.querySelectorAll('img[src$=".webp"]').forEach(img=>{
+    img.src = img.getAttribute('src').replace(/\.webp$/, '.svg');
+  });
+}
+normalizeImageSources();
+
 const KEY = "mokomoko_summerland_horror_v1";
 const WARNING_KEY = "mokomoko_content_warning_seen";
 let S = JSON.parse(localStorage.getItem(KEY) || '{"phase":0,"count":0,"seen":{},"mapSeen":false,"recruitSeen":false,"autoApplied":false,"warningSeen":false,"completionShown":false}');
@@ -6,31 +14,31 @@ if(typeof S.completionShown === "undefined") S.completionShown = false;
 
 const PHOTO = {
   ferris: {
-    day:"assets/ferris_day.webp", night:"assets/ferris_night.webp",
+    day:"assets/ferris_day.svg", night:"assets/ferris_night.svg",
     code:"FERRIS WHEEL", title:"きらめき観覧車",
     normal:"空の上から、パークを一望できます。",
     dark:"夜間ライトアップを実施しています。点灯していないゴンドラには乗車しないでください。"
   },
   teacup: {
-    day:"assets/teacup_day.webp", night:"assets/teacup_night.webp",
+    day:"assets/teacup_day.svg", night:"assets/teacup_night.svg",
     code:"TEA CUP", title:"くるくるティーパーティ",
     normal:"カラフルなカップでくるくる回る、人気のキッズライド。",
     dark:"停止後も回転しているカップには乗らないでください。"
   },
   train: {
-    day:"assets/train_day.webp", night:"assets/train_night.webp",
+    day:"assets/train_day.svg", night:"assets/train_night.svg",
     code:"PARK TRAIN", title:"しゅぽぽトレイン",
     normal:"園内をゆっくり一周する、小さなパークトレインです。",
     dark:"終点を過ぎても降車案内がない場合、そのままお待ちください。"
   },
   carousel: {
-    day:"assets/carousel_day.webp", night:"assets/carousel_night.webp",
+    day:"assets/carousel_day.svg", night:"assets/carousel_night.svg",
     code:"CAROUSEL", title:"ふわふわメリー",
     normal:"やさしい音楽に合わせて回る、パステルカラーのメリーゴーランド。",
     dark:"乗車中は絶対に後ろを振り返らないでください。"
   },
   surprise: {
-    day:"assets/surprise_day.webp", night:"assets/surprise_night.webp",
+    day:"assets/surprise_day.svg", night:"assets/surprise_night.svg",
     code:"SURPRISE HOUSE", title:"びっくりハウス",
     normal:"プレゼントみたいな外観が目印。中にはおもちゃみたいな不思議がいっぱい。",
     dark:"展示されているお人形にはお手を触れないでください。"
@@ -77,7 +85,7 @@ function setPhase(n){
     illuminationHours.textContent = "??:?? - 縺?1:00";
     accessSmall.textContent = "邱丞粋諠?蝣ｱ繧貞叙蠕励＠縺ｦ縺?∪縺?";
     news.textContent = "縺ｾ縺溘?譁?譁?縺ｧ縺ゅ＞縺ｾ縺励ｇ縺?";
-    attractionLead.textContent = "螟懈婿縺ｮ繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ縺ｯ迚ｹ蛯･蜈牙ｹｴ縺ｧ縺吶?";
+    attractionLead.textContent = "螟懈婿縺ｮ繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ縺ｯ迚ｹ蛻･蜈牙ｹｴ縺ｧ縺吶?";
     mapLead.textContent = "蝨貞?繝槭ャ繝励?迴ｾ蝨ｨ貅門ｙ荳ｭ縺ｧ縺吶?";
     newsIllumi.textContent = "繝翫う繝医う繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ髢句ぎ";
     lostNews.textContent = "蝨貞?縺ｧ縺ｾ縺?蟄舌↓縺ｪ縺｣縺溘?蜿門ｾ励";
