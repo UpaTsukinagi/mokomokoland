@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff6fb">
+<meta name="description" content="ふわふわ・きらきら。もこもこランド公式サイト。">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>もこもこランド｜公式サイト</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- First-view content warning -->
+<div class="entry-warning" id="entryWarning" aria-modal="true" role="dialog">
+  <div class="warning-card">
+    <div class="warning-icon">✦</div>
+    <h2>このサイトには少しホラー演出が含まれます</h2>
+    <p>画面の色・文字・画像が変化する演出、軽い画面揺れや文字化け表現があります。</p>
+    <div class="warning-actions">
+      <button id="continueBtn">閲覧を続ける</button>
+      <button class="quiet" id="backBtn">戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- Automatic recruitment popup -->
+<div class="application-modal" id="applicationModal">
+  <div class="application-card">
+    <div class="application-icon">✉</div>
+    <h2 id="applicationTitle">応募ありがとうございました</h2>
+    <p id="applicationText">もこもこランド キャスト採用係<br>応募を受け付けました。</p>
+    <strong id="applicationStrong">当日は心よりお待ち申し上げております</strong>
+    <button id="applicationClose">確認しました</button>
+  </div>
+</div>
+
+
+<!-- Final completion popup -->
+<div class="completion-modal" id="completionModal">
+  <div class="completion-card">
+    <div class="completion-noise"></div>
+    <div class="completion-kicker">MOKOMOKO LAND / STAFF ONLY</div>
+    <div class="completion-mark">✦</div>
+    <h2>当日は一緒に働けることを<br>楽しみにしております</h2>
+    <p>ご案内は以上です。<br>どうぞお気をつけてお越しください。</p>
+    <button class="completion-reset" id="completionReset">リセット</button>
+  </div>
+</div>
+
+<!-- Photo lightbox -->
+<div class="photo-modal" id="photoModal">
+  <div class="photo-card">
+    <div class="photo-frame">
+      <button class="modal-close" id="photoClose">×</button>
+      <img class="modal-day" id="modalDay" alt="">
+      <img class="modal-night" id="modalNight" alt="">
+    </div>
+    <div class="photo-caption">
+      <small id="modalCode"></small>
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Top opening-hours utility -->
+<div class="utility">
+  <div class="wrap utility-inner">
+    <span id="openingLabel">本日の営業時間</span>
+    <span class="chip" id="rideLabel">のりもの</span><span id="hoursTop">9:00 - 21:00</span>
+    <span class="chip" id="illuminationLabel">イルミネーション</span><span id="illuminationHours">9:00 - 21:00</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark">も</span>
+      <span><strong>もこもこランド</strong><small>MOKOMOKO LAND OFFICIAL</small></span>
+    </a>
+    <nav class="navlinks">
+      
+      <a href="#attractions">アトラクション</a>
+      <a href="#map">園内マップ</a>
+      <a class="ticket-link" href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">チケット</a>
+      <a class="access-nav" href="access.html">アクセス</a>
+      <a href="#recruit">キャスト募集</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="hero-picture">
+    <img class="day-photo" src="assets/ferris_day.webp" alt="昼のもこもこランド">
+    <img class="night-photo" src="assets/ferris_night.webp" alt="夜のもこもこランド">
+  </div>
+  <div class="hero-copy">
+    <div class="eyebrow">SMALL RIDES, BIG SMILES!</div>
+    <h1>もこもこランド</h1>
+    <p>ちいさな笑顔で、あしたをもっと明るく。</p>
+  </div>
+  <div class="scroll">SCROLL</div>
+</section>
+
+<div class="today-block">
+  <div class="wrap today-card">
+    <div class="today-label night-flicker">TODAY'S NEWS</div>
+    <div class="today-message night-shake" id="todayMessage">
+      17:00よりナイトイルミネーションを開催します。
+      <span class="creepy-small"><br>点滅しているライトを見かけたらキャストまでお声がけください。</span>
+    </div>
+    <div class="today-date">2026.09.10</div>
+  </div>
+</div>
+
+<section class="section soft" id="attractions">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="label">POPULAR ATTRACTIONS</div>
+        <h2 class="title night-shake">人気のアトラクション</h2>
+      </div>
+      <p class="lead" id="attractionLead">夜になるとキラキライルミネーションに彩られます。</p>
+    </div>
+
+    <div class="ride-grid reveal">
+      <article class="ride photo-open" data-kind="carousel">
+        <img class="day-photo" src="assets/carousel_day.webp">
+        <img class="night-photo" src="assets/carousel_night.webp">
+        <span class="change-dot"></span>
+        <div class="ride-copy"><small>01 / CAROUSEL</small><h3>ふわふわメリー</h3></div>
+      </article>
+      <article class="ride photo-open" data-kind="teacup">
+        <img class="day-photo" src="assets/teacup_day.webp">
+        <img class="night-photo" src="assets/teacup_night.webp">
+        <span class="change-dot"></span>
+        <div class="ride-copy"><small>02 / TEA CUP</small><h3 class="shake">くるくるティーパーティ</h3></div>
+      </article>
+      <article class="ride photo-open" data-kind="train">
+        <img class="day-photo" src="assets/train_day.webp">
+        <img class="night-photo" src="assets/train_night.webp">
+        <span class="change-dot"></span>
+        <div class="ride-copy"><small>03 / PARK TRAIN</small><h3>しゅぽぽトレイン</h3></div>
+      </article>
+      <article class="ride photo-open" data-kind="surprise">
+        <img class="day-photo" src="assets/surprise_day.webp">
+        <img class="night-photo" src="assets/surprise_night.webp">
+        <span class="change-dot"></span>
+        <div class="ride-copy"><small>04 / SURPRISE HOUSE</small><h3 class="font-warp">びっくりハウス</h3></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- "Before you go" area inspired by the utility cards used by large park sites -->
+<section class="section" id="before">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="label">BEFORE YOUR VISIT</div>
+        <h2 class="title night-shake">おでかけ前にチェック！</h2>
+      </div>
+    </div>
+    <div class="check-grid reveal">
+      <a class="check ticket-action" href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">🎟️</span><b>WEBチケット</b><small>チケットの購入はこちら</small>
+      </a>
+      <a class="check access-link night-shake" href="access.html">
+        <span class="icon">🚃</span><b>交通アクセス</b><small id="accessSmall">電車・バス・お車でのご案内</small>
+      </a>
+      <a class="check" href="#map">
+        <span class="icon">🗺️</span><b>園内マップ</b><small>もこもこランドをもっと楽しむ</small>
+      </a>
+      <a class="check night-flicker" href="#recruit">
+        <span class="icon">🎠</span><b>キャスト募集</b><small>いっしょに、笑顔をつくろう</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Cute original park map -->
+
+<section class="section soft" id="map">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="label">PARK MAP</div>
+        <h2 class="title night-flicker">園内マップ</h2>
+      </div>
+      <p class="lead" id="mapLead">園内マップは現在準備中です。公開まで今しばらくお待ちください。</p>
+    </div>
+
+    <div class="map-shell reveal">
+      <div style="min-height:320px;display:grid;place-items:center;text-align:center;border-radius:26px;background:rgba(255,255,255,.68);border:1px dashed rgba(120,103,146,.18);padding:34px;">
+        <div>
+          <div style="font-size:54px;margin-bottom:14px;">🗺️</div>
+          <div style="font-family:'Kiwi Maru',serif;font-size:30px;font-weight:400;margin-bottom:10px;">園内マップは準備中です</div>
+          <div style="font-size:12px;line-height:2;color:#8c8596;">もこもこランドの園内マップはただいま準備中です。<br>後日公開予定です。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="recruit">
+  <div class="wrap recruit-grid">
+    <div class="reveal">
+      <div class="label">CAST RECRUIT</div>
+      <h2 class="title night-red">あなたも、<br>もこもこの一員に。</h2>
+      <p class="lead" style="margin-top:20px">もこもこランドでは、ゲストの楽しい一日を一緒につくるパークキャストを募集しています。</p>
+    </div>
+    <div class="recruit-card reveal recruit-observer">
+      <span class="badge">NOW HIRING</span>
+      <h3 class="shake">もこもこランド<br>パークキャスト募集</h3>
+      <p>未経験歓迎。アトラクション案内、ショップ、ゲストサービスなど。かわいい制服を貸与します。</p>
+      <div class="job">
+        <div class="job-row"><b>募集職種</b><span>アトラクション / ショップ / ゲストサービス</span></div>
+        <div class="job-row"><b>勤務時間</b><span>23:00〜5:00（シフト制）</span></div>
+        <div class="job-row"><b>夜間業務</b><span>閉園後の巡回・<span class="font-warp">蜿励￠蜈･繧後</span>・照明確認</span></div>
+        <div class="job-row"><b>応募状況</b><span id="applyStatus">受付中</span></div>
+      </div>
+      <button class="fake-button" id="jobApplyBtn" type="button">募集要項を確認する</button>
+    </div>
+  </div>
+</section>
+
+<section class="section soft" id="news">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="label">INFORMATION</div>
+        <h2 class="title night-flicker">インフォメーション</h2>
+      </div>
+    </div>
+    <div class="news-list reveal">
+      <div class="news"><time>2026.09.10</time><span class="tag">お知らせ</span><span id="newsIllumi">ナイトイルミネーション開催のお知らせ</span><span class="arrow">›</span></div>
+      <div class="news"><time>2026.09.01</time><span class="tag night-red">お願い</span><span class="shake" id="lostNews">園内で迷子になった場合のご案内</span><span class="arrow">›</span></div>
+      <div class="news"><time>2026.08.21</time><span class="tag">採用</span><span id="recruitNews">秋季パークキャスト募集を開始しました</span><span class="arrow">›</span></div>
+      <div class="news"><time>2026.08.??</time><span class="tag">---</span><span class="font-warp" id="glitchNews">また明日もお越しください</span><span class="arrow">›</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap footer">
+    <span class="night-flicker">© MOKOMOKO LAND</span>
+    <span>
+      <a href="https://upavaquarium.booth.pm/" target="_blank" rel="noopener noreferrer">WEB TICKET</a>
+      &nbsp;/&nbsp;
+      <a class="access-link" href="access.html">ACCESS</a>
+      &nbsp;/&nbsp;
+      <button class="reset" id="reset">RESET EXPERIENCE</button>
+    </span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
