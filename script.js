@@ -85,7 +85,7 @@ function setPhase(n){
     illuminationHours.textContent = "??:?? - 縺?1:00";
     accessSmall.textContent = "邱丞粋諠?蝣ｱ繧貞叙蠕励＠縺ｦ縺?∪縺?";
     news.textContent = "縺ｾ縺溘?譁?譁?縺ｧ縺ゅ＞縺ｾ縺励ｇ縺?";
-    attractionLead.textContent = "螟懈婿縺ｮ繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ縺ｯ迚ｹ蛻･蜈牙ｹｴ縺ｧ縺吶?";
+    attractionLead.textContent = "螟懈婿縺ｮ繧､繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ縺ｯ迚ｹ蛯･蜈牙ｹｴ縺ｧ縺吶?";
     mapLead.textContent = "蝨貞?繝槭ャ繝励?迴ｾ蝨ｨ貅門ｙ荳ｭ縺ｧ縺吶?";
     newsIllumi.textContent = "繝翫う繝医う繝ｫ繝溘ロ繝ｼ繧ｷ繝ｧ繝ｳ髢句ぎ";
     lostNews.textContent = "蝨貞?縺ｧ縺ｾ縺?蟄舌↓縺ｪ縺｣縺溘?蜿門ｾ励";
@@ -126,7 +126,7 @@ function advance(kind){
   if(kind) S.seen[kind] = true;
   const unique = Object.keys(S.seen).length;
   if(S.count >= 2 || unique >= 2) setPhase(1);
-  if(S.count >= 10 || (unique >= 5 && S.count >= 8)) setPhase(2);
+  if(unique >= 4 && S.count >= 7) setPhase(2);
   if(S.count >= 15 || (S.recruitSeen && S.count >= 13)) setPhase(3);
   maybeAutoApply();
   maybeShowCompletion();
@@ -231,7 +231,8 @@ modal.addEventListener("click",e=>{ if(e.target === modal) modal.classList.remov
 document.querySelectorAll(".access-link,.access-nav").forEach(link=>{
   link.addEventListener("click", ()=>{
     S.count += 1;
-    if(S.phase >= 1 && S.count >= 10) setPhase(2);
+    const unique = Object.keys(S.seen).length;
+    if(S.phase >= 1 && unique >= 4 && S.count >= 7) setPhase(2);
     if(S.phase >= 2 && S.count >= 15) setPhase(3);
     save();
   });
