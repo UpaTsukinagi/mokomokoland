@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff7fb">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>アクセス｜もこもこランド</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap');
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;display:grid;place-items:center;padding:28px;
+  font-family:"Noto Sans JP","Yu Gothic",sans-serif;color:#625d70;
+  background:
+    radial-gradient(circle at 15% 12%,rgba(255,211,232,.6),transparent 23%),
+    radial-gradient(circle at 85% 16%,rgba(205,235,255,.6),transparent 24%),
+    linear-gradient(180deg,#fff9fc,#f7fbff);
+  transition:1s
+}
+body.night{
+  color:#eeeaff;background:
+    radial-gradient(circle at 50% 10%,rgba(232,164,255,.10),transparent 18%),
+    linear-gradient(180deg,#303b6d,#22264f 52%,#151731)
+}
+.card{
+  width:min(720px,95vw);border-radius:34px;padding:48px 38px;text-align:center;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(13px);
+  border:1px solid rgba(255,255,255,.78);box-shadow:0 28px 90px rgba(91,68,112,.16)
+}
+body.night .card{background:rgba(31,35,75,.7);border-color:rgba(255,255,255,.08);box-shadow:0 30px 90px rgba(0,0,0,.28)}
+.logo{
+  width:66px;height:66px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;
+  background:linear-gradient(135deg,#ffd4e7,#cbe9ff);color:#625e72;font-family:"Kiwi Maru";font-size:26px
+}
+.kicker{font-size:9px;letter-spacing:.24em;color:#a199aa;margin-bottom:13px}
+body.night .kicker{color:#aeb6d5}
+h1{font-family:"Kiwi Maru";font-size:31px;font-weight:400;line-height:1.5;margin:0 0 13px}
+body.night h1{font-family:"Noto Serif JP","Yu Mincho",serif;letter-spacing:.07em}
+p{font-size:13px;line-height:2;color:#827b8d;margin:0}
+body.night p{color:#c5cae0}
+.spinner{
+  width:42px;height:42px;border-radius:50%;border:4px solid #e5e0eb;border-top-color:#e79cc7;
+  margin:26px auto 10px;animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-box{
+  display:none;margin:25px auto 0;max-width:550px;padding:17px 18px;border-radius:17px;
+  text-align:left;background:#f6f2f6;border:1px solid #ece6ed;font-family:monospace;font-size:11px;line-height:1.8;color:#7b7180
+}
+body.night .error-box{background:rgba(10,12,31,.34);border-color:rgba(255,255,255,.06);color:#c1b5d9}
+.error-box.show{display:block}
+.code404{
+  display:none;font-size:clamp(78px,17vw,150px);line-height:.86;letter-spacing:.05em;
+  font-family:monospace;color:#f0d8ff;text-shadow:4px 0 rgba(255,108,207,.25),-4px 0 rgba(91,204,255,.24);
+  animation:shake .14s infinite;margin-bottom:28px
+}
+body.night .code404{display:block}
+body.night .spinner{display:none}
+body.night #dayTitle,body.night #dayText{display:none}
+#nightTitle,#nightText{display:none}
+body.night #nightTitle,body.night #nightText{display:block}
+.back{
+  display:inline-flex;margin-top:27px;padding:13px 21px;border-radius:999px;
+  background:linear-gradient(135deg,#ffd3e7,#ceeaff);color:#625f75;text-decoration:none;font-weight:600;font-size:12px
+}
+@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(1px,-.5px)}50%{transform:translate(-1px,.6px)}75%{transform:translate(.7px,.5px)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">も</div>
+  <div class="kicker">ACCESS / ROUTE INFORMATION</div>
+  <div class="code404">404</div>
+
+  <h1 id="dayTitle">読み込み中です</h1>
+  <p id="dayText">交通アクセス情報を取得しています。<br>そのままお待ちください。</p>
+
+  <h1 id="nightTitle">蟶ｫ繧雁ｾ後″縺後ｿ｣縺､縺九ｊ縺ｾ縺帙ｓ</h1>
+  <p id="nightText">縺薙?繝壹?繧ｸ縺ｯ豁ｻ譛滉ｸｭ縺ｧ縺吶?br>蜿門ｾ励＠縺溘ョ繝ｼ繧ｿ繧定ｪｭ縺ｿ霎ｼ繧√∪縺帙ｓ縺ｧ縺励◆銆</p>
+
+  <div class="spinner"></div>
+
+  <div class="error-box" id="errorBox">
+    NETWORK_STATUS : ERROR<br>
+    ROUTE_SERVER : timeout<br>
+    CURRENT_GATE : <span id="gate">unavailable</span><br>
+    MESSAGE : <span id="message">ネットワークエラー</span>
+  </div>
+
+  <a class="back" href="index.html">もこもこランドへ戻る</a>
+</div>
+
+<script>
+const KEY="mokomoko_summerland_horror_v1";
+let S=JSON.parse(localStorage.getItem(KEY)||'{"phase":0,"count":0}');
+const night = S.phase >= 2;
+if(night){
+  document.body.classList.add("night");
+  document.getElementById("errorBox").classList.add("show");
+  document.getElementById("gate").textContent="CLOSED / CLOSED / CLOSED";
+  document.getElementById("message").textContent="404 ERROR / 蟶ｫ繧雁ｾ後′隕九▽縺九ｊ縺ｾ縺帙ｓ";
+}else{
+  setTimeout(()=>{
+    document.getElementById("errorBox").classList.add("show");
+    document.getElementById("message").textContent="ネットワークエラー";
+  },1500);
+}
+</script>
+</body>
+</html>
