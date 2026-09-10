@@ -93,7 +93,16 @@ body.night #nightTitle,body.night #nightText{display:block}
 
 <script>
 const KEY="mokomoko_summerland_horror_v1";
-let S=JSON.parse(localStorage.getItem(KEY)||'{"phase":0,"count":0}');
+let S=JSON.parse(localStorage.getItem(KEY)||'{"phase":0,"count":0,"seen":{}}');
+
+// ACCESSを繰り返すだけでは夜に進めないようにする。
+// 4種類のアトラクションをすべて見た状態でのみ、夜フェーズを維持する。
+const unique = Object.keys(S.seen || {}).length;
+if(S.phase >= 2 && unique < 4){
+  S.phase = 1;
+  localStorage.setItem(KEY, JSON.stringify(S));
+}
+
 const night = S.phase >= 2;
 if(night){
   document.body.classList.add("night");
