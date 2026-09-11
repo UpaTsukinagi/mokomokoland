@@ -540,6 +540,16 @@ body.deep .photo-frame .modal-night{filter:saturate(.95) brightness(.88) contras
   .m-ferris{right:2%;top:7%}.m-carousel{left:1%;top:19%}.m-teacup{left:33%;top:43%}
   .m-train{right:0;bottom:15%}.m-toy{left:0;bottom:10%}.m-gate{left:33%;top:4%}.m-cast{right:30%;bottom:2%}
 }
+
+/* keep access card flex layout during night shake */
+body.dusk .check.night-shake,
+body.night .check.night-shake,
+body.deep .check.night-shake{
+  display:flex !important;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
 </style>
 </head>
 
